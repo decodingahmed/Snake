@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SnakeNet.Framework
 {
@@ -24,7 +22,7 @@ namespace SnakeNet.Framework
             _renderer.Clear();
         }
 
-        public void SetTargetFramesPerSecond(int fps) 
+        public void SetTargetFramesPerSecond(int fps)
             => _targetFrameTime = TimeSpan.FromSeconds(1d / fps);
 
         public void Run()
@@ -35,6 +33,8 @@ namespace SnakeNet.Framework
             {
                 var currentTime = DateTime.UtcNow;
                 var elapsedTime = currentTime - lastTime;
+
+                HandleInput(elapsedTime);
 
                 if (elapsedTime < _targetFrameTime)
                     continue;
