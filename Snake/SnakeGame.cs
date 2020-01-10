@@ -11,24 +11,33 @@ namespace SnakeNet
 {
     public class SnakeGame : Game
     {
-        // Time to next move
-        private static readonly TimeSpan StepTime = TimeSpan.FromSeconds(1);
-
         private readonly IList<SnakeBit> _snake;
 
-        private TimeSpan _nextStepTimeUpdate = TimeSpan.FromSeconds(0);
+        private MoveDirection _moveDirection = MoveDirection.Right;
         
         public SnakeGame()
             : base(new ConsoleRenderer())
         {
             _snake = InitSnake(5);
 
-            SetTargetFramesPerSecond(1);
+            SetTargetFramesPerSecond(1); // Important for the game to work
         }
 
         public override void HandleInput(TimeSpan elapsed)
         {
-            base.HandleInput(elapsed);
+            if (Console.KeyAvailable)
+            {
+                var key = Console.ReadKey().Key;
+
+                if (key == ConsoleKey.UpArrow)
+                    _moveDirection = MoveDirection.Up;
+                else if (key == ConsoleKey.DownArrow)
+                    _moveDirection = MoveDirection.Down;
+                else if (key == ConsoleKey.LeftArrow)
+                    _moveDirection = MoveDirection.Left;
+                else if (key == ConsoleKey.RightArrow)
+                    _moveDirection = MoveDirection.Right;
+            }
         }
 
         public override void Update(TimeSpan elapsed)
@@ -55,35 +64,33 @@ namespace SnakeNet
 
         private void UpdateSnake(TimeSpan elapsed)
         {
-            //if (_nextStepTimeUpdate < elapsed)
-            //{
-            //    _nextStepTimeUpdate = _nextStepTimeUpdate.Add(elapsed);
-            //    return;
-            //}
-
-            //_nextStepTimeUpdate = TimeSpan.FromSeconds(0);
-
-            for (var i = 0; i < _snake.Count; i++)
+            for (var i = _snake.Count - 1; i >= 0; i--)
             {
                 (var previous, var current, var next) = GetSnakeBits(i, _snake);
-                var direction = previous == null ? 
-                    current.GetRelativeDirection(next) :
-                    previous.GetRelativeDirection(current);
-                
-                switch (direction)
+
+                // Update head
+                if (i == 0)
                 {
-                    case MoveDirection.Down:
-                        current.Y += 1;
-                        break;
-                    case MoveDirection.Left:
-                        current.X -= 1;
-                        break;
-                    case MoveDirection.Right:
-                        current.X += 1;
-                        break;
-                    case MoveDirection.Up:
-                        current.Y -= 1;
-                        break;
+                    switch (_moveDirection)
+                    {
+                        case MoveDirection.Down:
+                            current.Y += 1;
+                            break;
+                        case MoveDirection.Left:
+                            current.X -= 1;
+                            break;
+                        case MoveDirection.Right:
+                            current.X += 1;
+                            break;
+                        case MoveDirection.Up:
+                            current.Y -= 1;
+                            break;
+                    }
+                }
+                else // Update body
+                {
+                    current.X = previous.X;
+                    current.Y = previous.Y;
                 }
             }
         }
