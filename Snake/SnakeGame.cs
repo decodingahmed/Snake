@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SnakeNet.Components;
 using SnakeNet.Framework;
 using SnakeNet.Framework.Renderer;
 using SnakeNet.GameObjects;
@@ -9,14 +10,23 @@ namespace SnakeNet
 {
     public class SnakeGame : Game
     {
+        private const int GenerateFoodCount = 3;
+        
+        private readonly Random _foodRandomiser = new Random();
+        private readonly IList<Food> _foods;
+        
         private readonly Snake _snake;
+        private readonly FpsCounter _fpsCounter;
         
         public SnakeGame()
             : base(new ConsoleRenderer(60, 30))
         {
             _snake = new Snake(5);
+            _foods = new List<Food>();
 
-            SetTargetFramesPerSecond(2); // Important for the game to work
+            _fpsCounter = new FpsCounter();
+
+            SetTargetFramesPerSecond(5); // Important for the game to work
         }
 
         public override void HandleInput(TimeSpan elapsed)
@@ -40,6 +50,30 @@ namespace SnakeNet
         {
             base.Update(elapsed);
 
+            // Create new food on demand
+            if (_foods.Count == 0)
+            {
+                foreach (var _ in Enumerable.Range(0, GenerateFoodCount))
+                {
+                    var randomX = _foodRandomiser.Next(GameRenderer.Width);
+                    var randomY = _foodRandomiser.Next(GameRenderer.Height);
+
+                    _foods.Add(new Food(randomX, randomY));
+                }
+            }
+
+            for (var i = 0; i < _foods.Count; i++)
+            {
+                var food = _foods[i];
+                if (_snake.Head.X == food.X && _snake.Head.Y == food.Y)
+                {
+                    _foods.RemoveAt(i);
+
+                    i--;
+                }
+            }
+
+            _fpsCounter.Update(elapsed);
             _snake.Update(elapsed);
         }
 
@@ -47,7 +81,12 @@ namespace SnakeNet
         {
             base.Draw(elapsed);
 
+            _fpsCounter.Draw(GameRenderer);
             _snake.Draw(GameRenderer);
+
+            // Draw food
+            foreach (var food in _foods)
+                food.Draw(GameRenderer);
         }
     }
 }

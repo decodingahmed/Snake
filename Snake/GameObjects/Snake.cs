@@ -11,6 +11,8 @@ namespace SnakeNet.GameObjects
 
         public MoveDirection Direction { get; set; } = MoveDirection.Right;
 
+        public SnakeBit Head => _snake[0];
+
         public Snake(int lengthOfSnake)
         {
             _snake = InitSnake(lengthOfSnake);
