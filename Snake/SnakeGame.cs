@@ -109,7 +109,7 @@ namespace SnakeNet
             const string SnakeHeadRight = ">";
             const string SnakeHeadLeft = "<";
                 
-            const string SnakeBodyHoriz = "═";
+            const string SnakeBodyHorizontal = "═";
             const string SnakeBodyVertical = "║";
             const string SnakeBodyDownRight = "╔";
             const string SnakeBodyDownLeft = "╗";
@@ -124,11 +124,39 @@ namespace SnakeNet
                 // Draw head
                 if (previous == null)
                 {
-                    bodyCharacter = SnakeHeadRight;
+                    switch (_moveDirection)
+                    {
+                        case MoveDirection.Down:
+                            bodyCharacter = SnakeHeadDown;
+                            break;
+                        case MoveDirection.Left:
+                            bodyCharacter = SnakeHeadLeft;
+                            break;
+                        case MoveDirection.Right:
+                            bodyCharacter = SnakeHeadRight;
+                            break;
+                        case MoveDirection.Up:
+                            bodyCharacter = SnakeHeadUp;
+                            break;
+                    }
                 }
                 else // Draw body
                 {
-                    bodyCharacter = SnakeBodyHoriz;
+                    switch (current.Direction)
+                    {
+                        case MoveDirection.Down:
+                            bodyCharacter = SnakeHeadDown;
+                            break;
+                        case MoveDirection.Left:
+                            bodyCharacter = SnakeHeadLeft;
+                            break;
+                        case MoveDirection.Right:
+                            bodyCharacter = SnakeHeadRight;
+                            break;
+                        case MoveDirection.Up:
+                            bodyCharacter = SnakeHeadUp;
+                            break;
+                    }
                 }
 
                 _renderer.DrawText(bodyCharacter, current.X, current.Y);
@@ -141,10 +169,5 @@ namespace SnakeNet
                 current: snake[index],
                 next: index == snake.Count - 1 ? null : snake[index + 1]);
         }
-
-        //private MoveOrientation GetOrientation(SnakeBit current, SnakeBit next)
-        //{
-
-        //}
     }
 }
