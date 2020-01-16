@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using FluentAssertions;
 using SnakeNet;
+using SnakeNet.Content;
 using SnakeNet.Extensions;
 using SnakeNet.GameObjects;
 using Xunit;
@@ -11,7 +12,7 @@ namespace SnakeNetTests
     public class SnakeBitExtensionsTests
     {
         [Fact]
-        public void Throw_ArgumentException_WhenNextPositionIsSameAsCurrent()
+        public void GetRelativeDirectionShould_Throw_ArgumentException_When_NextPositionIsSameAsCurrent()
         {
             Action action = () =>
             {
@@ -25,7 +26,7 @@ namespace SnakeNetTests
         }
 
         [Fact]
-        public void Throw_NotSupportedException_WhenNextIsDiagonallyPositioned()
+        public void GetRelativeDirectionShould_Throw_NotSupportedException_When_NextIsDiagonallyPositioned()
         {
             Action action = () =>
             {
@@ -43,7 +44,7 @@ namespace SnakeNetTests
         [InlineData(6, 5, 6, 6, MoveDirection.Up)]
         [InlineData(7, 0, 6, 0, MoveDirection.Right)]
         [InlineData(8, 3, 9, 3, MoveDirection.Left)]
-        public void Test1(int firstX, int firstY, int secondX, int secondY, MoveDirection expectedDirection)
+        public void GetRelativeDirectionShould_CalculatesRelativeMoveDirectionCorrectly(int firstX, int firstY, int secondX, int secondY, MoveDirection expectedDirection)
         {
             var currentBit = new SnakeBit { X = firstX, Y = firstY };
             var nextBit = new SnakeBit { X = secondX, Y = secondY };
