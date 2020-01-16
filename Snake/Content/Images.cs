@@ -7,7 +7,7 @@ namespace SnakeNet.Content
     public static class Images
     {
         public const string Wall = "█";
-        public const string Food = "⸰";
+        public const string Food = "o";
 
         public const string SnakeHeadUp = "^";
         public const string SnakeHeadDown = "v";
