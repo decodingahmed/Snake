@@ -4,10 +4,16 @@ namespace SnakeNet.Framework.Renderer
 {
     public class ConsoleRenderer : IRenderer
     {
-        public ConsoleRenderer()
+        public ConsoleRenderer(int width, int height)
         {
             Console.CursorVisible = false;
+            Console.BufferWidth = Console.WindowWidth = width;
+            Console.BufferHeight = Console.WindowHeight = height;
         }
+
+        public int Width => Console.WindowWidth;
+
+        public int Height => Console.WindowHeight;
 
         public void Clear()
         {

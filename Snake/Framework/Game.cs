@@ -4,14 +4,18 @@ namespace SnakeNet.Framework
 {
     public abstract class Game
     {
-        protected readonly IRenderer _renderer;
-
         private TimeSpan _targetFrameTime;
         private bool _wasExitRequested;
 
+        public IRenderer GameRenderer { get; }
+
+        public int GameWindowWidth => GameRenderer.Width;
+
+        public int GameWindowHeight => GameRenderer.Height;
+
         public Game(IRenderer renderer)
         {
-            _renderer = renderer;
+            GameRenderer = renderer;
             SetTargetFramesPerSecond(60);
         }
 
@@ -19,7 +23,7 @@ namespace SnakeNet.Framework
         public virtual void Update(TimeSpan elapsed) { }
         public virtual void Draw(TimeSpan elapsed)
         {
-            _renderer.Clear();
+            GameRenderer.Clear();
         }
 
         public void SetTargetFramesPerSecond(int fps)
