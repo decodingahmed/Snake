@@ -8,5 +8,7 @@ namespace SnakeNet.GameObjects
     {
         public int X { get; set; } = 0;
         public int Y { get; set; } = 0;
+        public bool IsHead { get; set; } = false;
+        public MoveDirection Direction { get; set; } = MoveDirection.None;
     }
 }
