@@ -123,7 +123,7 @@ namespace SnakeNet.GameObjects
                 .Select(index => new SnakeBit
                 {
                     X = index,
-                    Y = 0,
+                    Y = 3,
                     IsHead = index == 0,
                     Direction = MoveDirection.Right
                 })
