@@ -17,6 +17,8 @@ namespace SnakeNet
         
         private readonly Snake _snake;
         private readonly FpsCounter _fpsCounter;
+
+        private int _score = 0;
         
         public SnakeGame()
             : base(new ConsoleRenderer(60, 30))
@@ -67,8 +69,9 @@ namespace SnakeNet
                 var food = _foods[i];
                 if (_snake.Head.X == food.X && _snake.Head.Y == food.Y)
                 {
+                    _score++;
                     _foods.RemoveAt(i);
-
+                    
                     i--;
                 }
             }
@@ -87,6 +90,11 @@ namespace SnakeNet
             // Draw food
             foreach (var food in _foods)
                 food.Draw(GameRenderer);
+
+            var scoreText = string.Format("Score: {0:000}", _score);
+            var scoreX = GameRenderer.Width - scoreText.Length;
+            var scoreY = 0;
+            GameRenderer.DrawText(scoreText, scoreX, scoreY);
         }
     }
 }
