@@ -71,6 +71,7 @@ namespace SnakeNet
                 {
                     _score++;
                     _foods.RemoveAt(i);
+                    _snake.GrowSnake();
                     
                     i--;
                 }

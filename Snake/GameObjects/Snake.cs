@@ -18,6 +18,40 @@ namespace SnakeNet.GameObjects
             _snake = InitSnake(lengthOfSnake);
         }
 
+        public void GrowSnake()
+        {
+            var lastBit = _snake.Last();
+            var x = 0;
+            var y = 0;
+
+            switch (lastBit.Direction)
+            {
+                case MoveDirection.Up:
+                    x = lastBit.X;
+                    y = lastBit.Y + 1;
+                    break;
+                case MoveDirection.Down:
+                    x = lastBit.X;
+                    y = lastBit.Y - 1;
+                    break;
+                case MoveDirection.Left:
+                    x = lastBit.X + 1;
+                    y = lastBit.Y;
+                    break;
+                case MoveDirection.Right:
+                    x = lastBit.X - 1;
+                    y = lastBit.Y;
+                    break;
+            }
+
+            _snake.Add(new SnakeBit
+            {
+                Direction = lastBit.Direction,
+                X = x,
+                Y = y
+            });
+        }
+
         public void Update(TimeSpan elapsed)
         {
             for (var i = _snake.Count - 1; i >= 0; i--)
@@ -56,9 +90,6 @@ namespace SnakeNet.GameObjects
 
         public void Draw(IRenderer renderer)
         {
-            const string Wall = "█";
-            const string Food = "⸰";
-
             const string SnakeHeadUp = "^";
             const string SnakeHeadDown = "v";
             const string SnakeHeadRight = ">";
