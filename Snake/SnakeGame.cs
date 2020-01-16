@@ -59,7 +59,7 @@ namespace SnakeNet
         {
             return Enumerable.Range(0, lengthOfSnake)
                 .Reverse()
-                .Select(index => new SnakeBit { X = index, Y = 0 })
+                .Select(index => new SnakeBit { X = index, Y = 0, IsHead = index == 0, Direction = MoveDirection.Right })
                 .ToList();
         }
 
