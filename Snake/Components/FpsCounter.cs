@@ -1,31 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using SnakeNet.Framework;
 
 namespace SnakeNet.Components
 {
     public class FpsCounter
     {
-        private readonly TimeSpan _resetDuration;
+        private static readonly TimeSpan OneSecond = TimeSpan.FromSeconds(1);
+
         private TimeSpan _currentElapsed;
-        private int _counter;
+        private int _framesPerSecond;
+        private int _frameCounter;
 
         public FpsCounter()
         {
-            _resetDuration = TimeSpan.FromSeconds(1);
-            _counter = 0;
+            _frameCounter = 0;
         }
 
         public void Update(TimeSpan elapsed)
         {
-            //_currentElapsed += elapsed;
-            _counter++;
+            _currentElapsed += elapsed;
+            _frameCounter++;
+            if (_currentElapsed >= OneSecond)
+            {
+                _framesPerSecond = _frameCounter;
+
+                _currentElapsed = TimeSpan.Zero;
+                _frameCounter = 0;
+            }
         }
 
         public void Draw(IRenderer renderer)
         {
-            renderer.DrawText($"FPS: {_counter}", 0, 0);
+            renderer.DrawText($"FPS: {_framesPerSecond}", 0, 0);
         }
     }
 }
