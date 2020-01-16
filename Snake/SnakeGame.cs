@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SnakeNet.Components;
+using SnakeNet.Content;
 using SnakeNet.Extensions;
 using SnakeNet.Framework;
 using SnakeNet.Framework.Renderer;
@@ -73,6 +74,9 @@ namespace SnakeNet
                 {
                     switch (_moveDirection)
                     {
+                        case MoveDirection.Up:
+                            current.Y -= 1;
+                            break;
                         case MoveDirection.Down:
                             current.Y += 1;
                             break;
@@ -82,15 +86,15 @@ namespace SnakeNet
                         case MoveDirection.Right:
                             current.X += 1;
                             break;
-                        case MoveDirection.Up:
-                            current.Y -= 1;
-                            break;
                     }
+
+                    current.Direction = _moveDirection;
                 }
                 else // Update body
                 {
                     current.X = previous.X;
                     current.Y = previous.Y;
+                    current.Direction = previous.Direction;
                 }
             }
         }
