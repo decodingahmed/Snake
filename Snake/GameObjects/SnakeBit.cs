@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SnakeNet.GameObjects
+﻿namespace SnakeNet.GameObjects
 {
     public class SnakeBit
     {

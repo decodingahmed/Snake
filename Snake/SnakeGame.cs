@@ -23,7 +23,7 @@ namespace SnakeNet
         public SnakeGame()
             : base(new ConsoleRenderer(60, 30))
         {
-            _snake = new Snake(5);
+            _snake = new Snake(5, 60, 30);
             _foods = new List<Food>();
 
             _fpsCounter = new FpsCounter();

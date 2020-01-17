@@ -5,58 +5,52 @@ using SnakeNet.Framework;
 
 namespace SnakeNet.GameObjects
 {
+    /// <summary>
+    /// Our famous hungry reptile
+    /// </summary>
     public class Snake
     {
-        private readonly IList<SnakeBit> _snake;
+        /// <summary>
+        /// All the bits of the snake
+        /// </summary>
+        private readonly IList<SnakeBit> _bits;
+        private readonly int _gameAreaWidth;
+        private readonly int _gameAreaHeight;
 
+
+        /// <summary>
+        /// The head of the snake
+        /// </summary>
+        public SnakeBit Head => _bits[0];
+
+
+        /// <summary>
+        /// The direction the head of the snake is moving in
+        /// </summary>
         public MoveDirection Direction { get; set; } = MoveDirection.Right;
 
-        public SnakeBit Head => _snake[0];
 
-        public Snake(int lengthOfSnake)
+        /// <summary>
+        /// Constructor for our reptile
+        /// </summary>
+        /// <param name="lengthOfSnake">The starting length of our reptile</param>
+        public Snake(int lengthOfSnake, int gameAreaWidth, int gameAreaHeight)
         {
-            _snake = InitSnake(lengthOfSnake);
+            _bits = InitSnake(lengthOfSnake);
+            _gameAreaWidth = gameAreaWidth;
+            _gameAreaHeight = gameAreaHeight;
         }
 
-        public void GrowSnake()
-        {
-            var lastBit = _snake.Last();
-            var x = 0;
-            var y = 0;
 
-            switch (lastBit.Direction)
-            {
-                case MoveDirection.Up:
-                    x = lastBit.X;
-                    y = lastBit.Y + 1;
-                    break;
-                case MoveDirection.Down:
-                    x = lastBit.X;
-                    y = lastBit.Y - 1;
-                    break;
-                case MoveDirection.Left:
-                    x = lastBit.X + 1;
-                    y = lastBit.Y;
-                    break;
-                case MoveDirection.Right:
-                    x = lastBit.X - 1;
-                    y = lastBit.Y;
-                    break;
-            }
-
-            _snake.Add(new SnakeBit
-            {
-                Direction = lastBit.Direction,
-                X = x,
-                Y = y
-            });
-        }
-
+        /// <summary>
+        /// Update loop
+        /// </summary>
+        /// <param name="elapsed">Amount of time that has elapsed since the last update</param>
         public void Update(TimeSpan elapsed)
         {
-            for (var i = _snake.Count - 1; i >= 0; i--)
+            for (var i = _bits.Count - 1; i >= 0; i--)
             {
-                (var previous, var current, var next) = GetSnakeBits(i, _snake);
+                (var previous, var current, var next) = GetSnakeBits(i, _bits);
 
                 // Update head
                 if (i == 0)
@@ -78,6 +72,17 @@ namespace SnakeNet.GameObjects
                     }
 
                     current.Direction = Direction;
+
+                    // TODO: Handle this through collision system
+                    if (current.X == -1)
+                        current.X = _gameAreaWidth - 1;
+                    else if (current.X == _gameAreaWidth)
+                        current.X = 0;
+
+                    if (current.Y == -1)
+                        current.Y = _gameAreaHeight - 1;
+                    else if (current.Y == _gameAreaHeight)
+                        current.Y = 0;
                 }
                 else // Update body
                 {
@@ -88,6 +93,10 @@ namespace SnakeNet.GameObjects
             }
         }
 
+
+        /// <summary>
+        /// Rendering loop
+        /// </summary>
         public void Draw(IRenderer renderer)
         {
             const string SnakeHeadUp = "^";
@@ -102,9 +111,9 @@ namespace SnakeNet.GameObjects
             const string SnakeBodyUpRight = "╚";
             const string SnakeBodyUpLeft = "╝";
 
-            for (var i = 0; i < _snake.Count; i++)
+            for (var i = 0; i < _bits.Count; i++)
             {
-                (var previous, var current, var next) = GetSnakeBits(i, _snake);
+                (var previous, var current, var next) = GetSnakeBits(i, _bits);
                 var bodyCharacter = "";
 
                 // Draw head
@@ -147,6 +156,44 @@ namespace SnakeNet.GameObjects
 
                 renderer.DrawText(bodyCharacter, current.X, current.Y);
             }
+        }
+        
+
+        /// <summary>
+        /// Increase our reptile's size
+        /// </summary>
+        public void GrowSnake()
+        {
+            var lastBit = _bits.Last();
+            var x = 0;
+            var y = 0;
+
+            switch (lastBit.Direction)
+            {
+                case MoveDirection.Up:
+                    x = lastBit.X;
+                    y = lastBit.Y + 1;
+                    break;
+                case MoveDirection.Down:
+                    x = lastBit.X;
+                    y = lastBit.Y - 1;
+                    break;
+                case MoveDirection.Left:
+                    x = lastBit.X + 1;
+                    y = lastBit.Y;
+                    break;
+                case MoveDirection.Right:
+                    x = lastBit.X - 1;
+                    y = lastBit.Y;
+                    break;
+            }
+
+            _bits.Add(new SnakeBit
+            {
+                Direction = lastBit.Direction,
+                X = x,
+                Y = y
+            });
         }
 
         private IList<SnakeBit> InitSnake(int lengthOfSnake)

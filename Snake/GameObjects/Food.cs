@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SnakeNet.Content;
+﻿using SnakeNet.Content;
 using SnakeNet.Framework;
 
 namespace SnakeNet.GameObjects
