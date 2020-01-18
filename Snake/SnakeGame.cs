@@ -11,16 +11,28 @@ namespace SnakeNet
     public class SnakeGame : Game
     {
         private const int GenerateFoodCount = 3;
-        
+        private const string GameOverText = "G A M E   O V E R";
+
         private readonly Random _foodRandomiser = new Random();
         private readonly IList<Food> _foods;
-        
+
         private readonly Snake _snake;
         private readonly FpsCounter _fpsCounter;
         private readonly ICollisionSystem _collisionSystem;
 
+        // Score related variables
         private int _score = 0;
-        
+        private int _scoreX = 0;
+        private int _scoreY = 0;
+        private string _scoreText = string.Empty;
+
+        // Game over variables
+        private int _gameOverTextX = 0;// (GameRenderer.Width / 2) - (gameOverText.Length / 2);
+        private int _gameOverTextY = 0;// (GameRenderer.Height / 2) - 1;
+
+        // Game state
+        private bool _isGameOver;
+
         public SnakeGame()
             : base(new ConsoleRenderer(60, 30))
         {
@@ -35,6 +47,8 @@ namespace SnakeNet
 
             foreach (var bit in _snake.GetBits())
                 _collisionSystem.Add(bit);
+
+            _scoreText = $"Score: 000";
         }
 
         public override void HandleInput(TimeSpan elapsed)
@@ -58,41 +72,58 @@ namespace SnakeNet
         {
             base.Update(elapsed);
 
-            // Create new food on demand
-            if (_foods.Count == 0)
-            {
-                foreach (var _ in Enumerable.Range(0, GenerateFoodCount))
-                {
-                    var randomX = _foodRandomiser.Next(GameRenderer.Width);
-                    var randomY = _foodRandomiser.Next(GameRenderer.Height);
-
-                    var food = new Food(randomX, randomY);
-                    _foods.Add(food);
-
-                    _collisionSystem.Add(food);
-                }
-            }
-
             _fpsCounter.Update(elapsed);
-            _snake.Update(elapsed);
-            _collisionSystem.Update(elapsed);
+
+            if (!_isGameOver)
+            {
+                // Create new food on demand
+                if (_foods.Count == 0)
+                {
+                    foreach (var _ in Enumerable.Range(0, GenerateFoodCount))
+                    {
+                        var randomX = _foodRandomiser.Next(GameRenderer.Width);
+                        var randomY = _foodRandomiser.Next(GameRenderer.Height);
+
+                        var food = new Food(randomX, randomY);
+                        _foods.Add(food);
+
+                        _collisionSystem.Add(food);
+                    }
+                }
+
+                _snake.Update(elapsed);
+                _collisionSystem.Update(elapsed);
+            }
         }
 
         public override void Draw(TimeSpan elapsed)
         {
             base.Draw(elapsed);
 
-            _fpsCounter.Draw(GameRenderer);
-            _snake.Draw(GameRenderer);
+            if (_isGameOver)
+            {
+                GameRenderer.DrawText(GameOverText, _gameOverTextX, _gameOverTextY);
+            }
+            else
+            {
+                _fpsCounter.Draw(GameRenderer);
+                _snake.Draw(GameRenderer);
 
-            // Draw food
-            foreach (var food in _foods)
-                food.Draw(GameRenderer);
+                // Draw food
+                foreach (var food in _foods)
+                    food.Draw(GameRenderer);
+            }
 
-            var scoreText = string.Format("Score: {0:000}", _score);
-            var scoreX = GameRenderer.Width - scoreText.Length;
-            var scoreY = 0;
-            GameRenderer.DrawText(scoreText, scoreX, scoreY);
+            GameRenderer.DrawText(_scoreText, _scoreX, _scoreY);
+        }
+
+
+        private void IncrementScore()
+        {
+            _score++;
+
+            _scoreText = $"Score: {_score:000}";
+            _scoreX = GameRenderer.Width - _scoreText.Length;
         }
 
 
@@ -100,10 +131,24 @@ namespace SnakeNet
         {
             if (first is SnakeBit && second is Food food)
             {
-                _score++;
+                IncrementScore();
+
                 _foods.Remove(food);
                 _snake.GrowSnake();
                 _collisionSystem.Remove(food);
+            }
+            else if (first is SnakeBit bit1 && second is SnakeBit bit2)
+            {
+                _isGameOver = true;
+
+                var halfWidth = GameRenderer.Width / 2;
+                var halfHeight = GameRenderer.Height / 2;
+                
+                _gameOverTextX = halfWidth - (GameOverText.Length / 2);
+                _gameOverTextY = halfHeight - 1;
+
+                _scoreX = halfWidth - (_scoreText.Length / 2);
+                _scoreY = halfHeight;
             }
         }
     }
