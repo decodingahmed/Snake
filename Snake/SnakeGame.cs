@@ -49,6 +49,7 @@ namespace SnakeNet
                 _collisionSystem.Add(bit);
 
             _scoreText = $"Score: 000";
+            UpdateScore();
         }
 
         public override void HandleInput(TimeSpan elapsed)
@@ -122,10 +123,14 @@ namespace SnakeNet
         {
             _score++;
 
+            UpdateScore();
+        }
+
+        private void UpdateScore()
+        {
             _scoreText = $"Score: {_score:000}";
             _scoreX = GameRenderer.Width - _scoreText.Length;
         }
-
 
         private void CollisionSystem_OnCollisionDetected(CollisionSystem system, ICollidable first, ICollidable second)
         {
