@@ -1,6 +1,8 @@
-﻿namespace SnakeNet.GameObjects
+﻿using SnakeNet.Components;
+
+namespace SnakeNet.GameObjects
 {
-    public class SnakeBit
+    public class SnakeBit : ICollidable
     {
         public int X { get; set; } = 0;
         public int Y { get; set; } = 0;

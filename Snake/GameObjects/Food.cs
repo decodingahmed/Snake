@@ -1,9 +1,10 @@
-﻿using SnakeNet.Content;
+﻿using SnakeNet.Components;
+using SnakeNet.Content;
 using SnakeNet.Framework;
 
 namespace SnakeNet.GameObjects
 {
-    public class Food
+    public class Food : ICollidable
     {
         public int X { get; }
         public int Y { get; }
