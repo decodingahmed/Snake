@@ -17,6 +17,7 @@ namespace SnakeNet
         
         private readonly Snake _snake;
         private readonly FpsCounter _fpsCounter;
+        private readonly ICollisionSystem _collisionSystem;
 
         private int _score = 0;
         
@@ -27,8 +28,13 @@ namespace SnakeNet
             _foods = new List<Food>();
 
             _fpsCounter = new FpsCounter();
+            _collisionSystem = new CollisionSystem();
+            _collisionSystem.OnCollisionDetected += CollisionSystem_OnCollisionDetected;
 
             SetTargetFramesPerSecond(5); // Important for the game to work
+
+            foreach (var bit in _snake.GetBits())
+                _collisionSystem.Add(bit);
         }
 
         public override void HandleInput(TimeSpan elapsed)
@@ -60,25 +66,16 @@ namespace SnakeNet
                     var randomX = _foodRandomiser.Next(GameRenderer.Width);
                     var randomY = _foodRandomiser.Next(GameRenderer.Height);
 
-                    _foods.Add(new Food(randomX, randomY));
-                }
-            }
+                    var food = new Food(randomX, randomY);
+                    _foods.Add(food);
 
-            for (var i = 0; i < _foods.Count; i++)
-            {
-                var food = _foods[i];
-                if (_snake.Head.X == food.X && _snake.Head.Y == food.Y)
-                {
-                    _score++;
-                    _foods.RemoveAt(i);
-                    _snake.GrowSnake();
-                    
-                    i--;
+                    _collisionSystem.Add(food);
                 }
             }
 
             _fpsCounter.Update(elapsed);
             _snake.Update(elapsed);
+            _collisionSystem.Update(elapsed);
         }
 
         public override void Draw(TimeSpan elapsed)
@@ -96,6 +93,18 @@ namespace SnakeNet
             var scoreX = GameRenderer.Width - scoreText.Length;
             var scoreY = 0;
             GameRenderer.DrawText(scoreText, scoreX, scoreY);
+        }
+
+
+        private void CollisionSystem_OnCollisionDetected(CollisionSystem system, ICollidable first, ICollidable second)
+        {
+            if (first is SnakeBit && second is Food food)
+            {
+                _score++;
+                _foods.Remove(food);
+                _snake.GrowSnake();
+                _collisionSystem.Remove(food);
+            }
         }
     }
 }

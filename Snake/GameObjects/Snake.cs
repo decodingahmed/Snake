@@ -37,9 +37,16 @@ namespace SnakeNet.GameObjects
         public Snake(int lengthOfSnake, int gameAreaWidth, int gameAreaHeight)
         {
             _bits = InitSnake(lengthOfSnake);
+
             _gameAreaWidth = gameAreaWidth;
             _gameAreaHeight = gameAreaHeight;
         }
+
+
+        /// <summary>
+        /// All the bits of the snake
+        /// </summary>
+        public IList<SnakeBit> GetBits() => _bits;
 
 
         /// <summary>
