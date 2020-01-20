@@ -12,6 +12,7 @@ namespace SnakeNet
     {
         private const int GenerateFoodCount = 3;
         private const string GameOverText = "G A M E   O V E R";
+        private const string GameOverResetText = "Press ENTER to restart";
 
         private readonly Random _foodRandomiser = new Random();
         private readonly IList<Food> _foods;
@@ -27,8 +28,10 @@ namespace SnakeNet
         private string _scoreText = string.Empty;
 
         // Game over variables
-        private int _gameOverTextX = 0;// (GameRenderer.Width / 2) - (gameOverText.Length / 2);
-        private int _gameOverTextY = 0;// (GameRenderer.Height / 2) - 1;
+        private int _gameOverTextX = 0;
+        private int _gameOverTextY = 0;
+        private int _gameOverResetTextX = 0;
+        private int _gameOverResetTextY = 0;
 
         // Game state
         private bool _isGameOver;
@@ -58,14 +61,27 @@ namespace SnakeNet
             {
                 var key = Console.ReadKey().Key;
 
-                if (key == ConsoleKey.UpArrow)
-                    _snake.Direction = MoveDirection.Up;
-                else if (key == ConsoleKey.DownArrow)
-                    _snake.Direction = MoveDirection.Down;
-                else if (key == ConsoleKey.LeftArrow)
-                    _snake.Direction = MoveDirection.Left;
-                else if (key == ConsoleKey.RightArrow)
-                    _snake.Direction = MoveDirection.Right;
+                if (_isGameOver)
+                {
+                    if (key == ConsoleKey.Enter)
+                    {
+                        _isGameOver = false;
+
+                        Reset();
+                    }
+                }
+                else
+                {
+
+                    if (key == ConsoleKey.UpArrow)
+                        _snake.Direction = MoveDirection.Up;
+                    else if (key == ConsoleKey.DownArrow)
+                        _snake.Direction = MoveDirection.Down;
+                    else if (key == ConsoleKey.LeftArrow)
+                        _snake.Direction = MoveDirection.Left;
+                    else if (key == ConsoleKey.RightArrow)
+                        _snake.Direction = MoveDirection.Right;
+                }
             }
         }
 
@@ -104,6 +120,7 @@ namespace SnakeNet
             if (_isGameOver)
             {
                 GameRenderer.DrawText(GameOverText, _gameOverTextX, _gameOverTextY);
+                GameRenderer.DrawText(GameOverResetText, _gameOverResetTextX, _gameOverResetTextY);
             }
             else
             {
@@ -116,8 +133,22 @@ namespace SnakeNet
             }
 
             GameRenderer.DrawText(_scoreText, _scoreX, _scoreY);
+
+            GameRenderer.DrawText($"isGameOver: {_isGameOver}", 0, GameRenderer.Height - 1);
         }
 
+        private void Reset()
+        {
+            _score = 0;
+            UpdateScore();
+
+            _collisionSystem.Clear();
+            _foods.Clear();
+            _snake.Reset();
+            
+            foreach (var bit in _snake.GetBits())
+                _collisionSystem.Add(bit);
+        }
 
         private void IncrementScore()
         {
@@ -148,12 +179,15 @@ namespace SnakeNet
 
                 var halfWidth = GameRenderer.Width / 2;
                 var halfHeight = GameRenderer.Height / 2;
-                
+
                 _gameOverTextX = halfWidth - (GameOverText.Length / 2);
                 _gameOverTextY = halfHeight - 1;
 
                 _scoreX = halfWidth - (_scoreText.Length / 2);
-                _scoreY = halfHeight;
+                _scoreY = _gameOverTextY + 2;
+
+                _gameOverResetTextX = halfWidth - (GameOverResetText.Length / 2);
+                _gameOverResetTextY = _scoreY + 4;
             }
         }
     }
