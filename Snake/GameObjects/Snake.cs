@@ -44,6 +44,20 @@ namespace SnakeNet.GameObjects
 
 
         /// <summary>
+        /// Reset our reptile
+        /// </summary>
+        public void Reset()
+        {
+            _bits.Clear();
+
+            foreach (var bits in InitSnake(5))
+                _bits.Add(bits);
+
+            Direction = MoveDirection.Right;
+        }
+
+
+        /// <summary>
         /// All the bits of the snake
         /// </summary>
         public IList<SnakeBit> GetBits() => _bits;

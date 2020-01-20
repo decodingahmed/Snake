@@ -10,6 +10,7 @@ namespace SnakeNet.Components
         void Add(ICollidable gameObject);
         void Remove(ICollidable gameObject);
         void Update(TimeSpan elapsed);
+        void Clear();
     }
     
     public class CollisionSystem : ICollisionSystem
@@ -35,6 +36,11 @@ namespace SnakeNet.Components
                         OnCollisionDetected?.Invoke(this, collidable, otherCollidable);
                 }
             }
+        }
+
+        public void Clear()
+        {
+            _collidables.Clear();
         }
 
         private bool IsCollisionDetected(ICollidable first, ICollidable second)
