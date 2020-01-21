@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SnakeNet.Components;
 using SnakeNet.Framework;
-using SnakeNet.Framework.Renderer;
+using SnakeNet.Framework.Rendering;
 using SnakeNet.GameObjects;
 
 namespace SnakeNet
@@ -51,7 +51,6 @@ namespace SnakeNet
             foreach (var bit in _snake.GetBits())
                 _collisionSystem.Add(bit);
 
-            _scoreText = $"Score: 000";
             UpdateScore();
         }
 

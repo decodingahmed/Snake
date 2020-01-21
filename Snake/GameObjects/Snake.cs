@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SnakeNet.Framework;
+using SnakeNet.Framework.Rendering;
 
 namespace SnakeNet.GameObjects
 {

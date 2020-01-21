@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SnakeNet.Framework
+﻿namespace SnakeNet.Framework.Rendering
 {
     public interface IRenderer
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using SnakeNet.Framework;
+using SnakeNet.Framework.Rendering;
 
 namespace SnakeNet.Components
 {

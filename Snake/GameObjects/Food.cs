@@ -1,6 +1,6 @@
 ﻿using SnakeNet.Components;
 using SnakeNet.Content;
-using SnakeNet.Framework;
+using SnakeNet.Framework.Rendering;
 
 namespace SnakeNet.GameObjects
 {

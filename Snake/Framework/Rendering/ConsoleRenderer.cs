@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SnakeNet.Framework.Renderer
+namespace SnakeNet.Framework.Rendering
 {
     public class ConsoleRenderer : IRenderer
     {
