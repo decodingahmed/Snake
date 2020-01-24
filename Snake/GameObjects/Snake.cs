@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SnakeNet.Framework;
+using SnakeNet.Components;
+using SnakeNet.Content;
 using SnakeNet.Framework.Rendering;
 
 namespace SnakeNet.GameObjects
@@ -17,6 +18,8 @@ namespace SnakeNet.GameObjects
         private readonly IList<SnakeBit> _bits;
         private readonly int _gameAreaWidth;
         private readonly int _gameAreaHeight;
+        private readonly ICollisionSystem _collisionSystem;
+        private readonly int _startingLength;
 
 
         /// <summary>
@@ -35,12 +38,15 @@ namespace SnakeNet.GameObjects
         /// Constructor for our reptile
         /// </summary>
         /// <param name="lengthOfSnake">The starting length of our reptile</param>
-        public Snake(int lengthOfSnake, int gameAreaWidth, int gameAreaHeight)
+        public Snake(ICollisionSystem collisionSystem, int lengthOfSnake, int gameAreaWidth, int gameAreaHeight)
         {
+            _startingLength = lengthOfSnake;
+
             _bits = InitSnake(lengthOfSnake);
 
             _gameAreaWidth = gameAreaWidth;
             _gameAreaHeight = gameAreaHeight;
+            _collisionSystem = collisionSystem;
         }
 
 
@@ -51,7 +57,7 @@ namespace SnakeNet.GameObjects
         {
             _bits.Clear();
 
-            foreach (var bits in InitSnake(5))
+            foreach (var bits in InitSnake(_startingLength))
                 _bits.Add(bits);
 
             Direction = MoveDirection.Right;
@@ -121,6 +127,7 @@ namespace SnakeNet.GameObjects
         /// </summary>
         public void Draw(IRenderer renderer)
         {
+            const string SnakeHead = "■";
             const string SnakeHeadUp = "^";
             const string SnakeHeadDown = "v";
             const string SnakeHeadRight = ">";
@@ -159,21 +166,9 @@ namespace SnakeNet.GameObjects
                 }
                 else // Draw body
                 {
-                    switch (current.Direction)
-                    {
-                        case MoveDirection.Down:
-                            bodyCharacter = SnakeHeadDown;
-                            break;
-                        case MoveDirection.Left:
-                            bodyCharacter = SnakeHeadLeft;
-                            break;
-                        case MoveDirection.Right:
-                            bodyCharacter = SnakeHeadRight;
-                            break;
-                        case MoveDirection.Up:
-                            bodyCharacter = SnakeHeadUp;
-                            break;
-                    }
+                    bodyCharacter = ImageHelper.GetImage(
+                        previous.Direction,
+                        current.Direction);
                 }
 
                 renderer.DrawText(bodyCharacter, current.X, current.Y);
@@ -210,12 +205,15 @@ namespace SnakeNet.GameObjects
                     break;
             }
 
-            _bits.Add(new SnakeBit
+            var bit = new SnakeBit
             {
                 Direction = lastBit.Direction,
                 X = x,
                 Y = y
-            });
+            };
+
+            _bits.Add(bit);
+            _collisionSystem.Add(bit);
         }
 
         private IList<SnakeBit> InitSnake(int lengthOfSnake)
