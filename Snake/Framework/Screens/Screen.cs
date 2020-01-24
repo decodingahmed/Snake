@@ -9,9 +9,21 @@ namespace SnakeNet.Framework.Screens
     public interface IScreen
     {
         /// <summary>
+        /// The type of screen
+        /// </summary>
+        ScreenType Type { get; }
+
+
+        /// <summary>
         /// Indicates if the screen is currently visible
         /// </summary>
         bool IsVisible { get; }
+
+
+        /// <summary>
+        /// Initialise the screen
+        /// </summary>
+        void Initialise();
 
 
         /// <summary>

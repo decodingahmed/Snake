@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using SnakeNet.Framework.Rendering;
 using SnakeNet.Framework.Screens;
 
@@ -8,13 +6,21 @@ namespace SnakeNet.Screens
 {
     public abstract class ScreenBase : IScreen
     {
-        public bool IsVisible { get; private set; }
+        public ScreenType Type { get; }
 
-        public ScreenType ScreenType { get; }
+        public bool IsVisible { get; private set; } = false;
 
-        public ScreenBase(ScreenType screenType)
+        public bool IsInitialised { get; private set; } = false;
+        
+
+        public ScreenBase(ScreenType type)
         {
-            ScreenType = screenType;
+            Type = type;
+        }
+
+        public virtual void Initialise()
+        {
+            IsInitialised = true;
         }
 
         public abstract void Update(TimeSpan elapsed);
@@ -28,6 +34,9 @@ namespace SnakeNet.Screens
 
         public void Show()
         {
+            if (!IsInitialised)
+                Initialise();
+
             IsVisible = true;
         }
     }

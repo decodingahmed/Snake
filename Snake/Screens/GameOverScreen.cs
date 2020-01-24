@@ -59,7 +59,10 @@ namespace SnakeNet.Screens
             if (key == ConsoleKey.Enter)
             {
                 var screen = new GameScreen(_screenManager, _rendererWidth, _rendererHeight);
-                _screenManager.Push(screen);
+                _screenManager.AddScreen(screen);
+                _screenManager.RemoveScreen(this);
+
+                screen.Show();
             }
         }
 

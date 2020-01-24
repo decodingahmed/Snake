@@ -24,7 +24,10 @@ namespace SnakeNet
 
             SetTargetFramesPerSecond(5); // Important for the game to work
 
-            _screenManager.Push(new GameScreen(_screenManager, GameRenderer.Width, GameRenderer.Height));
+            var screen = new GameScreen(_screenManager, GameRenderer.Width, GameRenderer.Height);
+            _screenManager.AddScreen(screen);
+
+            screen.Show();
         }
 
         public override void HandleInput(TimeSpan elapsed)

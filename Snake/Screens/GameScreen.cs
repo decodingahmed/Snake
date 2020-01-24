@@ -30,18 +30,19 @@ namespace SnakeNet.Screens
         private string _scoreText = string.Empty;
 
         // Game state
-        private readonly bool _isGameOver;
+        private bool _isGameOver = false;
 
         public GameScreen(IScreenManager screenManager, int rendererWidth, int rendererHeight)
             : base(ScreenType.Screen)
         {
-            _snake = new Snake(5, 60, 30);
+            _collisionSystem = new CollisionSystem();
+
+            _snake = new Snake(_collisionSystem, 5, 60, 30);
             _foods = new List<Food>();
 
             _rendererWidth = rendererWidth;
             _rendererHeight = rendererHeight;
 
-            _collisionSystem = new CollisionSystem();
             _screenManager = screenManager;
 
             foreach (var bit in _snake.GetBits())
@@ -66,6 +67,8 @@ namespace SnakeNet.Screens
         public override void Update(TimeSpan elapsed)
         {
             HandleInput(elapsed);
+            
+            _collisionSystem.Update(elapsed);
 
             if (_foods.Count == 0)
             {
@@ -82,7 +85,6 @@ namespace SnakeNet.Screens
             }
 
             _snake.Update(elapsed);
-            _collisionSystem.Update(elapsed);
         }
 
         public void HandleInput(TimeSpan elapsed)
@@ -127,8 +129,16 @@ namespace SnakeNet.Screens
             }
             else if (first is SnakeBit bit1 && second is SnakeBit bit2)
             {
-                var screen = new GameOverScreen(_screenManager, _rendererWidth, _rendererHeight, _score);
-                _screenManager.Push(screen);
+                if (!_isGameOver)
+                {
+                    var screen = new GameOverScreen(_screenManager, _rendererWidth, _rendererHeight, _score);
+                    _screenManager.AddScreen(screen);
+                    _screenManager.RemoveScreen(this);
+
+                    screen.Show();
+                }
+
+                _isGameOver = true;
             }
         }
     }

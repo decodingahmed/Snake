@@ -7,51 +7,48 @@ namespace SnakeNet.Framework.Screens
 {
     public interface IScreenManager
     {
+        void AddScreen(IScreen screen);
+        void RemoveScreen(IScreen screen);
         void Update(TimeSpan elapsed);
         void Draw(IRenderer renderer);
-        void Push(IScreen screen);
-        IScreen Pop();
     }
 
 
     public class ScreenManager : IScreenManager
     {
-        private readonly Stack<IScreen> _screens = null;
-
-
-        public ScreenManager()
-        {
-            _screens = new Stack<IScreen>();
-        }
-
+        private readonly IList<IScreen> _screens = new List<IScreen>();
+        
         public void Update(TimeSpan elapsed)
         {
-            // Only update top screen in the stack
-            _screens.Peek().Update(elapsed);
+            // Creating a separate list because other screens might change
+            // the main screens list within the Update calls below
+            var screens = _screens.ToList();
+
+            foreach (var screen in screens)
+                screen.Update(elapsed);
         }
 
         public void Draw(IRenderer renderer)
         {
-            foreach (var screen in _screens.Reverse())
-            {
-                if (screen.IsVisible)
-                    screen.Draw(renderer);
-            }
+            var screens = _screens
+                .Reverse()
+                .Where(s => s.IsVisible);
+
+            foreach (var screen in screens)
+                screen.Draw(renderer);
         }
 
 
-        public void Push(IScreen screen)
+        public void AddScreen(IScreen screen)
         {
-            _screens.Push(screen);
-            screen.Show();
+            _screens.Add(screen);
+
+            screen.Initialise();
         }
 
-        public IScreen Pop()
+        public void RemoveScreen(IScreen screen)
         {
-            if (_screens.TryPop(out var screen))
-                return screen;
-
-            return null;
+            _screens.Remove(screen);
         }
     }
 }
