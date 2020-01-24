@@ -1,52 +1,54 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using SnakeNet.GameObjects;
 
 namespace SnakeNet.Content
 {
     public static class ImageHelper
     {
-        /* 
+        /**
          * |╔|═|╗|
          * |║| |║|
          * |╚|═|╝|
          */
 
-        public static string GetImage(MoveDirection previous, MoveDirection next)
+        public static string GetImage(MoveDirection previous, MoveDirection current)
         {
-            if (previous == MoveDirection.Up && (next == MoveDirection.None || next == MoveDirection.Up))
-                return Images.SnakeBodyUp;
-            else if (previous == MoveDirection.Down && (next == MoveDirection.None || next == MoveDirection.Down))
-                return Images.SnakeBodyDown;
-            else if (previous == MoveDirection.Left && (next == MoveDirection.None || next == MoveDirection.Left))
-                return Images.SnakeBodyLeft;
-            else if (previous == MoveDirection.Right && (next == MoveDirection.None || next == MoveDirection.Right))
-                return Images.SnakeBodyRight;
-
-            // ╝
-            else if ((previous == MoveDirection.Right && next == MoveDirection.Up) ||
-                (previous == MoveDirection.Down && next == MoveDirection.Left))
+            if (previous == current)
             {
-                return Images.SnakeBodyUpLeft;
+                if (previous == MoveDirection.Down)
+                    return Images.SnakeBodyDown;
+                else if (previous == MoveDirection.Left)
+                    return Images.SnakeBodyLeft;
+                else if (previous == MoveDirection.Right)
+                    return Images.SnakeBodyRight;
+                else if (previous == MoveDirection.Up)
+                    return Images.SnakeBodyUp;
             }
-            // ╚
-            else if ((previous == MoveDirection.Left && next == MoveDirection.Up) || 
-                (previous == MoveDirection.Down && next == MoveDirection.Right))
+            else
             {
-                return Images.SnakeBodyUpRight;
-            }
-            // ╔
-            else if ((previous == MoveDirection.Left && next == MoveDirection.Down) ||
-                (previous == MoveDirection.Up && next == MoveDirection.Right))
-            {
-                return Images.SnakeBodyDownRight;
-            }
-            // ╗
-            else if ((previous == MoveDirection.Right && next == MoveDirection.Down) ||
-                (previous == MoveDirection.Up && next == MoveDirection.Left))
-            {
-                return Images.SnakeBodyDownLeft;
+                // ╔
+                if ((previous == MoveDirection.Right && current == MoveDirection.Up) ||
+                   (previous == MoveDirection.Down && current == MoveDirection.Left))
+                {
+                    return Images.SnakeBodyDownRight;
+                }
+                // ╗
+                else if ((previous == MoveDirection.Left && current == MoveDirection.Up) ||
+                    (previous == MoveDirection.Down && current == MoveDirection.Right))
+                {
+                    return Images.SnakeBodyDownLeft;
+                }
+                // ╝
+                else if ((previous == MoveDirection.Left && current == MoveDirection.Down) ||
+                    (previous == MoveDirection.Up && current == MoveDirection.Right))
+                {
+                    return Images.SnakeBodyUpLeft;
+                }
+                // ╚
+                else if ((previous == MoveDirection.Right && current == MoveDirection.Down) ||
+                    (previous == MoveDirection.Up && current == MoveDirection.Left))
+                {
+                    return Images.SnakeBodyUpRight;
+                }
             }
 
             return "E";
