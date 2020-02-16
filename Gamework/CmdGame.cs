@@ -4,9 +4,18 @@ using Gamework.Rendering;
 
 namespace Gamework
 {
-    public abstract class CmdGame
+    public interface IGame
     {
-        private TimeSpan _targetFrameTime;
+        IRenderer GameRenderer { get; }
+        IInputManager InputManager { get; }
+        void Update(TimeSpan elapsed);
+        void Draw(TimeSpan elapsed);
+        void Exit();
+    }
+
+    public abstract class CmdGame : IGame
+    {
+        private readonly TimeSpan _targetFrameTime;
         private bool _wasExitRequested;
 
         public IRenderer GameRenderer { get; }
@@ -18,7 +27,8 @@ namespace Gamework
             GameRenderer = renderer;
             InputManager = inputManager;
 
-            SetTargetFramesPerSecond(60);
+            // Comfortable fps without hazy rendering
+            _targetFrameTime = TimeSpan.FromSeconds(1d / 30);
         }
         
         public virtual void Update(TimeSpan elapsed) { }
@@ -48,11 +58,6 @@ namespace Gamework
 
                 lastTime = currentTime;
             }
-        }
-
-        public void SetTargetFramesPerSecond(int fps)
-        {
-            _targetFrameTime = TimeSpan.FromSeconds(1d / fps);
         }
 
         public void Exit()

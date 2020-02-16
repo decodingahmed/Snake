@@ -23,8 +23,6 @@ namespace SnakeNet
             _fpsCounter = new FpsCounter();
             _screenManager = new ScreenManager(InputManager);
 
-            SetTargetFramesPerSecond(5); // Important for the game to work
-
             var screen = new GameScreen(_screenManager, GameRenderer.Width, GameRenderer.Height);
             _screenManager.AddScreen(screen);
 
