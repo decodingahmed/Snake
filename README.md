@@ -11,7 +11,7 @@ It is about a certain well-known hungry reptile that we know of and its journey 
 Currently, this game only runs in a Windows command prompt. However, it is built using .NET Core so in theory it can be platform agnostic (with a few modifications).
 
 # Future plans
-Pull the "Framework" bit out of this repository to a separate library that gives others simple building blocks to create and enjoy simple 2D games development in a Console application.
+Pull the "Gamework" bit out of this repository to a separate library that gives others simple building blocks to create and enjoy simple 2D games development in a Console application.
 
 The idea is to have separated components:
 * Core game framework
