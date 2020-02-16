@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeNet", "Snake\SnakeNet.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SnakeNetTests", "SnakeNetTests\SnakeNetTests.csproj", "{3FA6C47C-6D54-4EDC-B501-7E7104F217E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gamework", "Gamework\Gamework.csproj", "{34E65BF6-C9B9-4A98-BEFB-EEE40F6676F9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gamework", "Gamework\Gamework\Gamework.csproj", "{34E65BF6-C9B9-4A98-BEFB-EEE40F6676F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
