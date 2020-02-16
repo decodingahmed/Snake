@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SnakeNet.Components;
+using SnakeNet.Framework.Input;
 using SnakeNet.Framework.Rendering;
 using SnakeNet.Framework.Screens;
 using SnakeNet.GameObjects;
@@ -89,19 +90,19 @@ namespace SnakeNet.Screens
 
         public void HandleInput(TimeSpan elapsed)
         {
-            if (Console.KeyAvailable)
-            {
-                var key = Console.ReadKey().Key;
+            var key = _screenManager.InputManager.State.KeyPressed;
 
-                if (key == ConsoleKey.UpArrow)
-                    _snake.Direction = MoveDirection.Up;
-                else if (key == ConsoleKey.DownArrow)
-                    _snake.Direction = MoveDirection.Down;
-                else if (key == ConsoleKey.LeftArrow)
-                    _snake.Direction = MoveDirection.Left;
-                else if (key == ConsoleKey.RightArrow)
-                    _snake.Direction = MoveDirection.Right;
-            }
+            if (key == Key.None)
+                return;
+
+            if (key == Key.Up)
+                _snake.Direction = MoveDirection.Up;
+            else if (key == Key.Down)
+                _snake.Direction = MoveDirection.Down;
+            else if (key == Key.Left)
+                _snake.Direction = MoveDirection.Left;
+            else if (key == Key.Right)
+                _snake.Direction = MoveDirection.Right;
         }
 
         private void IncrementScore()

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SnakeNet.Framework.Input;
 using SnakeNet.Framework.Rendering;
 
 namespace SnakeNet.Framework.Screens
 {
     public interface IScreenManager
     {
+        IInputManager InputManager { get; }
+
         void AddScreen(IScreen screen);
         void RemoveScreen(IScreen screen);
         void Update(TimeSpan elapsed);
@@ -17,6 +20,15 @@ namespace SnakeNet.Framework.Screens
     public class ScreenManager : IScreenManager
     {
         private readonly IList<IScreen> _screens = new List<IScreen>();
+
+        public IInputManager InputManager { get; }
+
+
+        public ScreenManager(IInputManager inputManager)
+        {
+            InputManager = inputManager;
+        }
+
         
         public void Update(TimeSpan elapsed)
         {
