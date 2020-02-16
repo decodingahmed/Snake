@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SnakeNet.Framework.Input
+namespace Gamework.Input
 {
     public enum Key
     {

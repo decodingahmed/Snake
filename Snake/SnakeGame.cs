@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using SnakeNet.Components;
-using SnakeNet.Framework;
-using SnakeNet.Framework.Input;
-using SnakeNet.Framework.Rendering;
-using SnakeNet.Framework.Screens;
+using Gamework;
+using Gamework.Input;
+using Gamework.Rendering;
+using Gamework.Screens;
 using SnakeNet.GameObjects;
 using SnakeNet.Screens;
 

@@ -1,8 +1,8 @@
 ﻿using System;
-using SnakeNet.Framework.Input;
-using SnakeNet.Framework.Rendering;
+using Gamework.Input;
+using Gamework.Rendering;
 
-namespace SnakeNet.Framework
+namespace Gamework
 {
     public abstract class CmdGame
     {

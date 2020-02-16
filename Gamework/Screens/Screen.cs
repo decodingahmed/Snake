@@ -1,7 +1,7 @@
 ﻿using System;
-using SnakeNet.Framework.Rendering;
+using Gamework.Rendering;
 
-namespace SnakeNet.Framework.Screens
+namespace Gamework.Screens
 {
     /// <summary>
     /// Represents the a screen in the screen manager

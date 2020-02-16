@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SnakeNet.Framework.Input;
-using SnakeNet.Framework.Rendering;
+using Gamework.Input;
+using Gamework.Rendering;
 
-namespace SnakeNet.Framework.Screens
+namespace Gamework.Screens
 {
     public interface IScreenManager
     {

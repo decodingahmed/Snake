@@ -1,4 +1,4 @@
-﻿namespace SnakeNet.Framework.Rendering
+﻿namespace Gamework.Rendering
 {
     public interface IRenderer
     {

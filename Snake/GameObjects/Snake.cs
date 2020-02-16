@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SnakeNet.Components;
 using SnakeNet.Content;
-using SnakeNet.Framework.Rendering;
+using Gamework.Rendering;
 
 namespace SnakeNet.GameObjects
 {

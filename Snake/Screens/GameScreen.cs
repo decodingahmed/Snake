@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using SnakeNet.Components;
-using SnakeNet.Framework.Input;
-using SnakeNet.Framework.Rendering;
-using SnakeNet.Framework.Screens;
+using Gamework.Input;
+using Gamework.Rendering;
+using Gamework.Screens;
 using SnakeNet.GameObjects;
 
 namespace SnakeNet.Screens
