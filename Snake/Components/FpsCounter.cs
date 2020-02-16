@@ -1,6 +1,6 @@
 ﻿using System;
-using SnakeNet.Framework;
-using SnakeNet.Framework.Rendering;
+using Gamework;
+using Gamework.Rendering;
 
 namespace SnakeNet.Components
 {

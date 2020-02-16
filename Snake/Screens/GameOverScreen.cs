@@ -1,6 +1,7 @@
 ﻿using System;
-using SnakeNet.Framework.Rendering;
-using SnakeNet.Framework.Screens;
+using Gamework.Input;
+using Gamework.Rendering;
+using Gamework.Screens;
 
 namespace SnakeNet.Screens
 {
@@ -49,14 +50,9 @@ namespace SnakeNet.Screens
             _rendererHeight = rendererHeight;
         }
 
-        public void HandleInput(TimeSpan elapsed)
+        public override void Update(TimeSpan elapsed)
         {
-            if (!Console.KeyAvailable)
-                return;
-
-            var key = Console.ReadKey().Key;
-
-            if (key == ConsoleKey.Enter)
+            if (_screenManager.InputManager.State.KeyPressed == Key.Enter)
             {
                 var screen = new GameScreen(_screenManager, _rendererWidth, _rendererHeight);
                 _screenManager.AddScreen(screen);
@@ -64,11 +60,6 @@ namespace SnakeNet.Screens
 
                 screen.Show();
             }
-        }
-
-        public override void Update(TimeSpan elapsed)
-        {
-            HandleInput(elapsed);
         }
 
         public override void Draw(IRenderer renderer)
