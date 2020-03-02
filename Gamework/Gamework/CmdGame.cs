@@ -55,7 +55,7 @@ namespace Gamework
         {
             var lastTime = DateTime.UtcNow;
 
-            while (true)
+            while (!_wasExitRequested)
             {
                 var currentTime = DateTime.UtcNow;
                 var elapsedTime = currentTime - lastTime;
