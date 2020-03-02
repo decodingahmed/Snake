@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Gamework.Components;
 using Gamework.Input;
 using Gamework.Rendering;
 
@@ -22,20 +24,30 @@ namespace Gamework
 
         public IInputManager InputManager { get; }
 
+        public IList<IDrawableComponent> DrawableComponents { get; }
+
         public CmdGame(IRenderer renderer, IInputManager inputManager)
         {
             GameRenderer = renderer;
             InputManager = inputManager;
+            DrawableComponents = new List<IDrawableComponent>();
 
             // Comfortable fps without hazy rendering
-            _targetFrameTime = TimeSpan.FromSeconds(1d / 30);
+            _targetFrameTime = TimeSpan.FromSeconds(1d / 20);
         }
         
-        public virtual void Update(TimeSpan elapsed) { }
+        public virtual void Update(TimeSpan elapsed)
+        {
+            foreach (var component in DrawableComponents)
+                component.Update(elapsed);
+        }
 
         public virtual void Draw(TimeSpan elapsed)
         {
             GameRenderer.Clear();
+
+            foreach (var component in DrawableComponents)
+                component.Draw(GameRenderer, elapsed);
         }
         
 

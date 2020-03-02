@@ -14,26 +14,25 @@ namespace SnakeNet
     public class SnakeGame : CmdGame
     {
         private const int GenerateFoodCount = 3;
-        private readonly FpsCounter _fpsCounter;
         private readonly IScreenManager _screenManager;
         
         public SnakeGame()
             : base(new ConsoleRenderer(60, 30), new CmdInputManager())
         {
-            _fpsCounter = new FpsCounter();
             _screenManager = new ScreenManager(InputManager);
 
             var screen = new GameScreen(_screenManager, GameRenderer.Width, GameRenderer.Height);
             _screenManager.AddScreen(screen);
 
             screen.Show();
+
+            DrawableComponents.Add(new FpsCounter());
         }
 
         public override void Update(TimeSpan elapsed)
         {
             base.Update(elapsed);
 
-            _fpsCounter.Update(elapsed);
             _screenManager.Update(elapsed);
         }
 
@@ -41,7 +40,6 @@ namespace SnakeNet
         {
             base.Draw(elapsed);
 
-            _fpsCounter.Draw(GameRenderer);
             _screenManager.Draw(GameRenderer);
         }
     }
