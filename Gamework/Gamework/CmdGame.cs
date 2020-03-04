@@ -24,12 +24,15 @@ namespace Gamework
 
         public IInputManager InputManager { get; }
 
+        // TODO: List of game components
+
         public IList<IDrawableComponent> DrawableComponents { get; }
 
         public CmdGame(IRenderer renderer, IInputManager inputManager)
         {
-            GameRenderer = renderer;
-            InputManager = inputManager;
+            GameRenderer = renderer ?? throw new ArgumentNullException(nameof(renderer));
+            InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
+
             DrawableComponents = new List<IDrawableComponent>();
 
             // Comfortable fps without hazy rendering
