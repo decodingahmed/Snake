@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Gamework.Input;
-using Gamework.Rendering;
+using Gamecmder.Input;
+using Gamecmder.Rendering;
 using Moq;
 using Xunit;
 
-namespace Gamework.Tests
+namespace Gamecmder.Tests
 {
     [Trait("UnitTests", nameof(CmdGame))]
     public class CmdGameTests

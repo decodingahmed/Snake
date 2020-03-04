@@ -1,6 +1,6 @@
 ﻿using System;
-using Gamework.Rendering;
-using Gamework.Screens;
+using Gamecmder.Rendering;
+using Gamecmder.Screens;
 
 namespace SnakeNet.Screens
 {

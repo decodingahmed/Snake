@@ -1,7 +1,7 @@
 ﻿using System;
-using Gamework;
-using Gamework.Components;
-using Gamework.Rendering;
+using Gamecmder;
+using Gamecmder.Components;
+using Gamecmder.Rendering;
 
 namespace SnakeNet.Components
 {

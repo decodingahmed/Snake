@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gamework.Components;
-using Gamework.Input;
-using Gamework.Rendering;
+using Gamecmder.Components;
+using Gamecmder.Input;
+using Gamecmder.Rendering;
 
-namespace Gamework.Screens
+namespace Gamecmder.Screens
 {
     public interface IScreenManager : IDrawableComponent
     {

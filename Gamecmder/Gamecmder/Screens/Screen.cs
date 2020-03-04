@@ -1,7 +1,7 @@
 ﻿using System;
-using Gamework.Rendering;
+using Gamecmder.Rendering;
 
-namespace Gamework.Screens
+namespace Gamecmder.Screens
 {
     /// <summary>
     /// Represents the a screen in the screen manager

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Gamework.Rendering;
+using Gamecmder.Rendering;
 
-namespace Gamework.Components
+namespace Gamecmder.Components
 {
     public interface IDrawableComponent : IGameComponent
     {

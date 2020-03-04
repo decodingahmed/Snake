@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using Gamework.Input;
-using Gamework.Rendering;
+using Gamecmder.Input;
+using Gamecmder.Rendering;
 
-namespace Gamework.Tests
+namespace Gamecmder.Tests
 {
     public class TestGame : CmdGame
     {

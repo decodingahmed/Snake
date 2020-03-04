@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Gamework.Components;
-using Gamework.Rendering;
+using Gamecmder.Components;
+using Gamecmder.Rendering;
 
-namespace Gamework.Tests
+namespace Gamecmder.Tests
 {
     class TestDrawableComponent : IDrawableComponent
     {

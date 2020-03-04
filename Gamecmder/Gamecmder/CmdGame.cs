@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Gamework.Components;
-using Gamework.Input;
-using Gamework.Rendering;
+using Gamecmder.Components;
+using Gamecmder.Input;
+using Gamecmder.Rendering;
 
-namespace Gamework
+namespace Gamecmder
 {
     public interface IGame
     {

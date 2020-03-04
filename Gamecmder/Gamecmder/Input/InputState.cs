@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Gamework.Input
+namespace Gamecmder.Input
 {
     public class InputState
     {

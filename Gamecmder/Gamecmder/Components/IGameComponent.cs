@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Gamework.Components
+namespace Gamecmder.Components
 {
     public interface IGameComponent
     {
