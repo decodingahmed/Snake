@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Gamework.Screens
+namespace Gamecmder.Screens
 {
     public enum ScreenType
     {

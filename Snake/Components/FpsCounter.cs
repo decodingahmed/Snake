@@ -1,10 +1,11 @@
 ﻿using System;
-using Gamework;
-using Gamework.Rendering;
+using Gamecmder;
+using Gamecmder.Components;
+using Gamecmder.Rendering;
 
 namespace SnakeNet.Components
 {
-    public class FpsCounter
+    public class FpsCounter : IDrawableComponent
     {
         private static readonly TimeSpan OneSecond = TimeSpan.FromSeconds(1);
 
@@ -30,7 +31,7 @@ namespace SnakeNet.Components
             }
         }
 
-        public void Draw(IRenderer renderer)
+        public void Draw(IRenderer renderer, TimeSpan elapsed)
         {
             renderer.DrawText($"FPS: {_framesPerSecond}", 0, 0);
         }

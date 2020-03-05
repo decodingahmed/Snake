@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gamework.Rendering
+namespace Gamecmder.Rendering
 {
     public class ConsoleRenderer : IRenderer
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using Gamecmder;
 
 namespace SnakeNet
 {
@@ -7,7 +8,8 @@ namespace SnakeNet
         static void Main(string[] args)
         {
             var game = new SnakeGame();
-            game.Run();
+
+            GameRunner.Run(game);
 
             Console.WriteLine("Thanks for playing. Goodbye.");
         }

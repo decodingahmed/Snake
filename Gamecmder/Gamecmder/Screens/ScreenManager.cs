@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gamework.Input;
-using Gamework.Rendering;
+using Gamecmder.Components;
+using Gamecmder.Input;
+using Gamecmder.Rendering;
 
-namespace Gamework.Screens
+namespace Gamecmder.Screens
 {
-    public interface IScreenManager
+    public interface IScreenManager : IDrawableComponent
     {
         IInputManager InputManager { get; }
 
         void AddScreen(IScreen screen);
         void RemoveScreen(IScreen screen);
-        void Update(TimeSpan elapsed);
-        void Draw(IRenderer renderer);
     }
 
 
@@ -40,7 +39,7 @@ namespace Gamework.Screens
                 screen.Update(elapsed);
         }
 
-        public void Draw(IRenderer renderer)
+        public void Draw(IRenderer renderer, TimeSpan elapsed)
         {
             var screens = _screens
                 .Reverse()

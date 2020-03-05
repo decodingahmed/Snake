@@ -1,4 +1,4 @@
-﻿namespace Gamework.Rendering
+﻿namespace Gamecmder.Rendering
 {
     public interface IRenderer
     {
