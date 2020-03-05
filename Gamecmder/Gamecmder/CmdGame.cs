@@ -6,8 +6,12 @@ using Gamecmder.Rendering;
 
 namespace Gamecmder
 {
+    /// <summary>
+    /// Provides an interface for a game
+    /// </summary>
     public interface IGame
     {
+        bool IsExiting { get; }
         IRenderer GameRenderer { get; }
         IInputManager InputManager { get; }
         void Update(TimeSpan elapsed);
@@ -18,7 +22,8 @@ namespace Gamecmder
     public abstract class CmdGame : IGame
     {
         private readonly TimeSpan _targetFrameTime;
-        private bool _wasExitRequested;
+
+        public bool IsExiting { get; private set; }
 
         public IRenderer GameRenderer { get; }
 
@@ -34,13 +39,12 @@ namespace Gamecmder
             InputManager = inputManager ?? throw new ArgumentNullException(nameof(inputManager));
 
             DrawableComponents = new List<IDrawableComponent>();
-
-            // Comfortable fps without hazy rendering
-            _targetFrameTime = TimeSpan.FromSeconds(1d / 20);
         }
         
         public virtual void Update(TimeSpan elapsed)
         {
+            InputManager.Update(elapsed);
+
             foreach (var component in DrawableComponents)
                 component.Update(elapsed);
         }
@@ -52,32 +56,10 @@ namespace Gamecmder
             foreach (var component in DrawableComponents)
                 component.Draw(GameRenderer, elapsed);
         }
-        
-
-        public void Run()
-        {
-            var lastTime = DateTime.UtcNow;
-
-            while (!_wasExitRequested)
-            {
-                var currentTime = DateTime.UtcNow;
-                var elapsedTime = currentTime - lastTime;
-
-                if (elapsedTime < _targetFrameTime)
-                    continue;
-
-                InputManager.Update(elapsedTime);
-
-                Update(elapsedTime);
-                Draw(elapsedTime);
-
-                lastTime = currentTime;
-            }
-        }
 
         public void Exit()
         {
-            _wasExitRequested = true;
+            IsExiting = true;
         }
     }
 }
